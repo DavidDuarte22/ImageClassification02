@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		DE6E348B252DFD33002A0FED /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6E348A252DFD33002A0FED /* ImagePicker.swift */; };
 		DE6E34AB252F5DB7002A0FED /* MultiSnacks.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = DE6E34AA252F5DB7002A0FED /* MultiSnacks.mlmodel */; };
+		DE6E34B7253DD12E002A0FED /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6E34B6253DD12E002A0FED /* CameraController.swift */; };
+		DE6E34C2253DD82A002A0FED /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6E34C1253DD82A002A0FED /* VideoCapture.swift */; };
 		DE92370D252CEEF6001A2855 /* supervisedTrainingTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE92370C252CEEF6001A2855 /* supervisedTrainingTestApp.swift */; };
 		DE92370F252CEEF6001A2855 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE92370E252CEEF6001A2855 /* ContentView.swift */; };
 		DE923711252CEEF9001A2855 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE923710252CEEF9001A2855 /* Assets.xcassets */; };
@@ -36,7 +38,9 @@
 
 /* Begin PBXFileReference section */
 		DE6E348A252DFD33002A0FED /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		DE6E34AA252F5DB7002A0FED /* MultiSnacks.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MultiSnacks.mlmodel; sourceTree = SOURCE_ROOT; };
+		DE6E34AA252F5DB7002A0FED /* MultiSnacks.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = MultiSnacks.mlmodel; path = supervisedTrainingTest/Logic/MultiSnacks.mlmodel; sourceTree = SOURCE_ROOT; };
+		DE6E34B6253DD12E002A0FED /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
+		DE6E34C1253DD82A002A0FED /* VideoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
 		DE923709252CEEF6001A2855 /* supervisedTrainingTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = supervisedTrainingTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE92370C252CEEF6001A2855 /* supervisedTrainingTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = supervisedTrainingTestApp.swift; sourceTree = "<group>"; };
 		DE92370E252CEEF6001A2855 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -76,6 +80,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DE6E34CC253E1D3E002A0FED /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DE923710252CEEF9001A2855 /* Assets.xcassets */,
+				DE92370C252CEEF6001A2855 /* supervisedTrainingTestApp.swift */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DE6E34CD253E1D63002A0FED /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DE6E34B6253DD12E002A0FED /* CameraController.swift */,
+				DE92370E252CEEF6001A2855 /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		DE6E34CE253E1D76002A0FED /* Logic */ = {
+			isa = PBXGroup;
+			children = (
+				DE6E34AA252F5DB7002A0FED /* MultiSnacks.mlmodel */,
+				DE6E34C1253DD82A002A0FED /* VideoCapture.swift */,
+				DE6E348A252DFD33002A0FED /* ImagePicker.swift */,
+			);
+			path = Logic;
+			sourceTree = "<group>";
+		};
 		DE923700252CEEF6001A2855 = {
 			isa = PBXGroup;
 			children = (
@@ -99,11 +131,9 @@
 		DE92370B252CEEF6001A2855 /* supervisedTrainingTest */ = {
 			isa = PBXGroup;
 			children = (
-				DE92370C252CEEF6001A2855 /* supervisedTrainingTestApp.swift */,
-				DE92370E252CEEF6001A2855 /* ContentView.swift */,
-				DE6E348A252DFD33002A0FED /* ImagePicker.swift */,
-				DE923710252CEEF9001A2855 /* Assets.xcassets */,
-				DE6E34AA252F5DB7002A0FED /* MultiSnacks.mlmodel */,
+				DE6E34CE253E1D76002A0FED /* Logic */,
+				DE6E34CD253E1D63002A0FED /* View */,
+				DE6E34CC253E1D3E002A0FED /* Supporting Files */,
 				DE923715252CEEF9001A2855 /* Info.plist */,
 				DE923712252CEEF9001A2855 /* Preview Content */,
 			);
@@ -266,8 +296,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE6E348B252DFD33002A0FED /* ImagePicker.swift in Sources */,
+				DE6E34B7253DD12E002A0FED /* CameraController.swift in Sources */,
 				DE6E34AB252F5DB7002A0FED /* MultiSnacks.mlmodel in Sources */,
 				DE92370F252CEEF6001A2855 /* ContentView.swift in Sources */,
+				DE6E34C2253DD82A002A0FED /* VideoCapture.swift in Sources */,
 				DE92370D252CEEF6001A2855 /* supervisedTrainingTestApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

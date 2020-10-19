@@ -7,12 +7,14 @@
 
 import SwiftUI
 import UIKit
+import CoreMedia
 
 
 struct ContentView: View {
     
     @State private var isShowPhotoLibrary = false
     @State private var isShowCamera = false
+    @State private var isLiveCamera = false
     @State private var image = UIImage()
     @State private var result = "First you've to select an image"
      
@@ -29,7 +31,7 @@ struct ContentView: View {
                     Button(action: {
                         self.isShowPhotoLibrary = true
                     }) {
-                        ButtonView(icon: "photo", title: "Photo library")
+                        ButtonView(icon: "photo", title: "Library")
                         .sheet(isPresented: $isShowCamera) {
                             ImagePicker(result: self.$result, selectedImage: self.$image, sourceType: .camera)
                         }
@@ -42,10 +44,20 @@ struct ContentView: View {
                             ImagePicker(result: self.$result, selectedImage: self.$image, sourceType: .photoLibrary)
                         }
                     }
+                Button(action: {
+                    self.isLiveCamera = true
+                }) {
+                    ButtonView(icon: "video", title: "Live")
+                        .sheet(isPresented: $isLiveCamera) {
+                            CameraViewController()
+                        }
+                    }
                 }
             }
         }
+
 }
+
 
 struct ButtonView: View {
     var iconImage: String
@@ -73,6 +85,12 @@ struct ButtonView: View {
     
 }
 
+
+//extension ViewController: VideoCaptureDelegate {
+//  func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame sampleBuffer: CMSampleBuffer) {
+//    classify(sampleBuffer: sampleBuffer)
+//  }
+//}
 
 #if DEBUG
 struct ContentView_Previews: PreviewProvider {
