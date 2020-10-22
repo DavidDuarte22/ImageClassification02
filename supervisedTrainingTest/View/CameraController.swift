@@ -98,126 +98,40 @@ final class CameraViewController: UIViewController {
     var previewView: UIView!
     var resultsLabel: UILabel!
     
-    var videoCapture: VideoCapture!
-    let semaphore = DispatchSemaphore(value: CameraViewController.maxInflightBuffers)
-    
-    static let maxInflightBuffers = 2
-    var inflightBuffer = 0
-    var classificationRequests = [VNCoreMLRequest]()
-    
-    lazy var visionModel: VNCoreMLModel = {
-      do {
-        let multiSnacks = MultiSnacks()
-        return try VNCoreMLModel(for: multiSnacks.model)
-      } catch {
-        fatalError("Failed to create VNCoreMLModel: \(error)")
-      }
-    }()
+    var classificationController: VideoController!
+    private var observer: Any!
 
     override func viewDidLoad() {
-                    
+        
         previewView = UIView(frame: CGRect(x:0, y:0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
         previewView.contentMode = UIView.ContentMode.scaleAspectFit
+
         setResultLabel()
         view.addSubview(previewView)
         view.addSubview(resultsLabel)
-        setUpVision()
-        setUpCamera()
-    }
-    
-    func setUpCamera() {
-        videoCapture = VideoCapture()
-        videoCapture.delegate = self
         
-        videoCapture.frameInterval = 1
-        
-        videoCapture.setUp(sessionPreset: .high) { success in
-          if success {
-            // Add the video preview into the UI.
-            if let previewLayer = self.videoCapture.previewLayer {
-              self.previewView.layer.addSublayer(previewLayer)
-              self.resizePreviewLayer()
-            }
-            self.videoCapture.start()
-          }
-        }
-    }
-    
-    func setUpVision() {
-      for _ in 0..<CameraViewController.maxInflightBuffers {
-        let request = VNCoreMLRequest(model: visionModel, completionHandler: {
-          [weak self] request, error in
-          self?.processObservations(for: request, error: error)
-        })
-
-        request.imageCropAndScaleOption = .centerCrop
-        classificationRequests.append(request)
-      }
+        classificationController = VideoController(self)
+        classificationController.initCapture()
     }
     
     override func viewWillLayoutSubviews() {
       super.viewWillLayoutSubviews()
-      resizePreviewLayer()
-    }
-
-    func resizePreviewLayer() {
-      videoCapture.previewLayer?.frame = previewView.bounds
-    }
-
-}
-
-extension CameraViewController : UIViewControllerRepresentable{
-    public typealias UIViewControllerType = CameraViewController
-    
-    public func makeUIViewController(context: UIViewControllerRepresentableContext<CameraViewController>) -> CameraViewController {
-        return CameraViewController()
+        classificationController.resizePreviewLayer()
     }
     
-    public func updateUIViewController(_ uiViewController: CameraViewController, context: UIViewControllerRepresentableContext<CameraViewController>) {
+    override func viewWillAppear(_ animated: Bool) {
+        observer = NotificationCenter.default.addObserver(self, selector: #selector(onDidReceiveData(_:)), name: .didReceiveData, object: Classification.shared)
     }
-}
-
-extension CameraViewController: VideoCaptureDelegate {
-  func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame sampleBuffer: CMSampleBuffer) {
-    classify(sampleBuffer: sampleBuffer)
-  }
     
-    func classify(sampleBuffer: CMSampleBuffer) {
-      if let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
-        // Tell Vision about the orientation of the image.
-//        let orientation = CGImagePropertyOrientation(UIDevice.current.orientation)
-
-        // Get additional info from the camera.
-        var options: [VNImageOption : Any] = [:]
-        if let cameraIntrinsicMatrix = CMGetAttachment(sampleBuffer, key: kCMSampleBufferAttachmentKey_CameraIntrinsicMatrix, attachmentModeOut: nil) {
-          options[.cameraIntrinsics] = cameraIntrinsicMatrix
+    override func viewDidDisappear(_ animated: Bool) {
+        classificationController.videoCapture.stop()
+        NotificationCenter.default.removeObserver(observer)
+    }
+    
+    @objc func onDidReceiveData(_ notification:Notification) {
+        if let result = notification.userInfo?["request"] as? VNCoreMLRequest {
+            processObservations(for: result, error: nil)
         }
-
-        // The semaphore is used to block the VideoCapture queue and drop frames
-        // when Core ML can't keep up.
-        semaphore.wait()
-
-        // For better throughput, we want to schedule multiple Vision requests
-        // in parallel. These need to be separate instances, and inflightBuffer
-        // is the index of the current request object to use.
-        let request = self.classificationRequests[inflightBuffer]
-        inflightBuffer += 1
-        if inflightBuffer >= CameraViewController.maxInflightBuffers {
-          inflightBuffer = 0
-        }
-
-        // For better throughput, perform the prediction on a background queue
-        // instead of on the VideoCapture queue.
-        DispatchQueue.global(qos: .userInitiated).async {
-          let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: options)
-          do {
-            try handler.perform([request])
-          } catch {
-            print("Failed to perform classification: \(error)")
-          }
-          self.semaphore.signal()
-        }
-      }
     }
     
     func processObservations(for request: VNRequest, error: Error?) {
@@ -239,6 +153,18 @@ extension CameraViewController: VideoCaptureDelegate {
 
       }
     }
+}
+
+extension CameraViewController : UIViewControllerRepresentable{
+    public typealias UIViewControllerType = CameraViewController
+    
+    public func makeUIViewController(context: UIViewControllerRepresentableContext<CameraViewController>) -> CameraViewController {
+        return CameraViewController()
+    }
+    
+    public func updateUIViewController(_ uiViewController: CameraViewController, context: UIViewControllerRepresentableContext<CameraViewController>) {
+    }
+    
 }
 
 

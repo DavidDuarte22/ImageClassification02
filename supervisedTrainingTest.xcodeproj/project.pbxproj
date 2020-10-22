@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE20FBF42541D6C700C3358F /* Classification.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE20FBF32541D6C700C3358F /* Classification.swift */; };
+		DE20FBF92541D77700C3358F /* VideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE20FBF82541D77700C3358F /* VideoController.swift */; };
 		DE6E348B252DFD33002A0FED /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6E348A252DFD33002A0FED /* ImagePicker.swift */; };
 		DE6E34AB252F5DB7002A0FED /* MultiSnacks.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = DE6E34AA252F5DB7002A0FED /* MultiSnacks.mlmodel */; };
 		DE6E34B7253DD12E002A0FED /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6E34B6253DD12E002A0FED /* CameraController.swift */; };
@@ -37,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DE20FBF32541D6C700C3358F /* Classification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Classification.swift; sourceTree = "<group>"; };
+		DE20FBF82541D77700C3358F /* VideoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoController.swift; sourceTree = "<group>"; };
 		DE6E348A252DFD33002A0FED /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		DE6E34AA252F5DB7002A0FED /* MultiSnacks.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = MultiSnacks.mlmodel; path = supervisedTrainingTest/Logic/MultiSnacks.mlmodel; sourceTree = SOURCE_ROOT; };
 		DE6E34B6253DD12E002A0FED /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
@@ -80,6 +84,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DE20FBFD2541D7D100C3358F /* Live */ = {
+			isa = PBXGroup;
+			children = (
+				DE6E34C1253DD82A002A0FED /* VideoCapture.swift */,
+				DE20FBF82541D77700C3358F /* VideoController.swift */,
+			);
+			path = Live;
+			sourceTree = "<group>";
+		};
+		DE20FBFE2541D7F200C3358F /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				DE6E348A252DFD33002A0FED /* ImagePicker.swift */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
 		DE6E34CC253E1D3E002A0FED /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -101,9 +122,10 @@
 		DE6E34CE253E1D76002A0FED /* Logic */ = {
 			isa = PBXGroup;
 			children = (
+				DE20FBFE2541D7F200C3358F /* Image */,
+				DE20FBFD2541D7D100C3358F /* Live */,
 				DE6E34AA252F5DB7002A0FED /* MultiSnacks.mlmodel */,
-				DE6E34C1253DD82A002A0FED /* VideoCapture.swift */,
-				DE6E348A252DFD33002A0FED /* ImagePicker.swift */,
+				DE20FBF32541D6C700C3358F /* Classification.swift */,
 			);
 			path = Logic;
 			sourceTree = "<group>";
@@ -297,6 +319,8 @@
 			files = (
 				DE6E348B252DFD33002A0FED /* ImagePicker.swift in Sources */,
 				DE6E34B7253DD12E002A0FED /* CameraController.swift in Sources */,
+				DE20FBF42541D6C700C3358F /* Classification.swift in Sources */,
+				DE20FBF92541D77700C3358F /* VideoController.swift in Sources */,
 				DE6E34AB252F5DB7002A0FED /* MultiSnacks.mlmodel in Sources */,
 				DE92370F252CEEF6001A2855 /* ContentView.swift in Sources */,
 				DE6E34C2253DD82A002A0FED /* VideoCapture.swift in Sources */,
